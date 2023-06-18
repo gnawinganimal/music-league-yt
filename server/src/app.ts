@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import users from "./routes/users";
 import leagues from "./routes/leagues";
 import rounds from "./routes/rounds";
+import songs from "./routes/songs";
 
 dotenv.config();
 mongoose.connect( 
@@ -15,10 +16,10 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(users);
 app.use(leagues);
 app.use(rounds);
+app.use(songs);
 
 app.listen(3000, () => {
     console.log("Server is running...");

@@ -6,7 +6,7 @@ import Round from "../models/round";
 const router = express.Router();
 
 router.get("/rounds", async (_, res) => {
-    const rounds = await Round.find({});
+    const rounds = await Round.find({}).populate("songs");
 
     try {
         res.send(rounds);
