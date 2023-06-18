@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import User from "./models/user";
+import League from "./models/league";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ app.get("/", async (_, res) => {
     } catch (error) {
         res.status(500).send(error);
     }
-})
+});
 
 app.post("/user", async (req, res) => {
     console.log(req.body);
@@ -31,7 +32,19 @@ app.post("/user", async (req, res) => {
         await user.save();
         res.send(user);
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send(error);
+    }
+});
+
+app.post("/league", async (req, res) => {
+    console.log(req.body);
+    const league = new League(req.body);
+
+    try {
+        await league.save();
+        res.send(league);
+    } catch (error) {
+        res.status(500).send(error);
     }
 });
 
