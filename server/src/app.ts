@@ -21,6 +21,6 @@ app.use(leagues);
 app.use(rounds);
 app.use(songs);
 
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log("Server is running...");
 });
