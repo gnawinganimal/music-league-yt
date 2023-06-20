@@ -6,6 +6,7 @@ import League from "../models/league";
 const router = express.Router();
 
 router.get("/leagues", async (_, res) => {
+    console.log("GET /leagues");
     const leagues = await League.find({})
         .populate("users")
         .populate("rounds");
