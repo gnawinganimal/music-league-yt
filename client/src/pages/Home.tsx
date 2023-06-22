@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../env";
 
+import Nav from "../components/Nav";
+
 function Home() {
   let [leagues, setLeagues] = useState<any[]>([]);
 
@@ -14,6 +16,7 @@ function Home() {
   return (
     <div id="Home">
       <div className="px-60 space-y-6">
+        <Nav />
         <h3 className="text-3xl">Your Leagues</h3>
         <div id="leagues" className="grid grid-cols-3 gap-4">
           {leagues.map((league, key) => (
