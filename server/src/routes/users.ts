@@ -1,30 +1,42 @@
 import express from "express";
-import mongoose from "mongoose";
+import passport from "passport";
+import jwt from "jsonwebtoken";
 
-import User from "../models/user";
+import { TOKEN_SECRET } from "../env";
 
 const router = express.Router();
 
-router.get("/users", async (_, res) => {
-    const users = await User.find({});
+// using tutorial from:
+// https://www.digitalocean.com/community/tutorials/api-authentication-with-json-web-tokensjwt-and-passport
 
-    try {
-        res.send(users);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+router.post("/signup", passport.authenticate("signup", { session: false }), async (req, res, next) => {
+    res.json({
+        message: "Signed up successfully",
+        user: req.user,
+    });
 });
 
-router.post("/user", async (req, res) => {
-    console.log(req.body);
-    const user = new User(req.body);
+router.post("/login", async (req, res, next) => {
+    passport.authenticate("login", async (err: any, user: any) => {
+        try {
+            if (err || !user) {
+                return next(new Error("An error occured."));
+            }
 
-    try {
-        await user.save();
-        res.send(user);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+            req.login(user, { session: false }, async err => {
+                if (err) {
+                    return next(err);
+                }
+
+                const body  = { _id: user._id, email: user.email };
+                const token = jwt.sign({ user: body }, TOKEN_SECRET);
+
+                return res.json({ token });
+            })
+        } catch (error) {
+            return next(error);
+        }
+    })(req, res, next);
 });
 
 export default router;
