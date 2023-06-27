@@ -9,7 +9,7 @@ import rounds from "./routes/rounds";
 import songs from "./routes/songs";
 import profile from "./routes/profile";
 
-import { DATABASE_URL } from "./env";
+import { DATABASE_URL, PORT } from "./env";
 import "./auth";
 
 mongoose.connect(DATABASE_URL);
@@ -25,6 +25,6 @@ app.use(rounds);
 app.use(songs);
 app.use("/user", passport.authenticate("jwt", { session: false}), profile);
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log("Server is running...");
 });
